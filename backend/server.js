@@ -3,22 +3,21 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const connectdb = require('./config/db');
 const productRoutes = require("./routes/productRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 dotenv.config();
 const app = express();
+app.use(express.json());
 app.use(cors());
-
 connectdb();
-
 app.use('/api/products',productRoutes)
-
+app.use('/api/auth',authRoutes);
 app.get('/',(req,res)=>{
-    res.send("api is running");
-
+    res.send("api is working");
 });
-
 const port = process.env.PORT || 5600;
 
 app.listen(port,()=>{
-    console.log("server is running on port- 5600");
+    console.log("server is running port 5600");
 });
+

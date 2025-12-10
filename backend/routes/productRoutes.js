@@ -7,62 +7,55 @@ const router = express.Router();
 
 router.post('/',async(req,res)=>{
     try {
-       const {name,category,price,inStock} = req.body;
-       const newProduct = new Product({name,category,price,inStock});
-       const product = await newProduct.save();
-       res.status(201).json(product);
+      const {name,category,price,inStock} = req.body;
+      const newProduct = new Product({name,category,price,inStock});
+      const product = await newProduct.save();
+      res.status(201).json(product)  ;
     }
-    catch(err){
-        res.status(400).json({massege:"Product Invalid"});
+    catch(err) {
+       res.status(400).json({message:"product invalid"}); 
     }
-});
-
+})
 //view
-
 router.get('/',async(req,res)=>{
     try {
-       const products = await Product.find();
-       res.status(201).json(products);
+      const products = await Product.find()
+      res.json(products);
     }
-    catch(err){
-        res.status(404).json({massege:"Product not Found"});
+    catch(err) {
+       res.status(404).json({message:"product not found"}); 
     }
-});
+})
 
-//update
+// //update
+// router.put('/:id',async(req,res)=>{
+//     try {
+//       const {name,category,price,inStock} = req.body;
+//       const productupdate = await Product.findByIdAndUpdate(
+//         req.params.id,
+//         {name,category,price,inStock},
+//         {new:true}
+//       );
 
-router.put('/:id', async (req, res) => {
-  try {
-    const { name, category, price, inStock } = req.body;
-
-    const productUpdate = await Product.findByIdAndUpdate(
-      req.params.id,
-      { name, category, price, inStock },
-      { new: true }
-    );
-
-    res.status(201).json(productUpdate);
-  } catch (err) {
-    res.status(400).json({ message: "product invalid" });
-  }
-});
-
-//delete
-
-router.delete('/:id', async (req, res) => {
-  try {
-    const productDelete = await Product.findByIdAndDelete(
-      req.params.id
-    );
-
-    if (!productDelete)
-      return res.status(400).json({ message: "product not found" });
-
-    res.json({ message: "delete done" });
-  } catch (err) {
-    res.status(400).json({ message: "product invalid" });
-  }
-});
-
+//       res.status(201).json(productupdate)  ;
+//     }
+//     catch(err) {
+//        res.status(400).json({message:"product invalid"}); 
+//     }
+// });
+// //delete
+// router.delete('/:id',async(req,res)=>{
+//     try {
+//       const productdelete = await Product.findByIdAndDelete(
+//         req.params.id,
+//       );
+//       if(!productdelete) return res.status(400).json({message:"product not found"}); 
+//       res.json({message:"delete done"});
+//     }
+    
+//     catch(err) {
+//        res.status(400).json({message:"product invalid"}); 
+//     }
+// });
 
 module.exports = router;
